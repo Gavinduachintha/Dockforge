@@ -1,5 +1,4 @@
 @import "tailwindcss";
-
 :root {
   --background: #ffffff;
   --surface: #f5faff;
@@ -11,9 +10,13 @@
   --foreground-subtle: #7c93ad;
   --accent-primary: #2496ed;
   --accent-hover: #086dd7;
-  --accent-error: #e5484d;
+  --accent-error: #e5484d; /* Hacktoberfest button colors */
+  --hf-pink: #e97b77;
+  --hf-pink-hover: #f08b87;
+  --hf-maroon: #671912;
+  --hf-ink: #231f20;
+  --hf-paper: #f2f2eb;
 }
-
 @theme inline {
   --color-background: var(--background);
   --color-surface: var(--surface);
@@ -29,36 +32,74 @@
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
-
 html,
 body {
   min-height: 100%;
   width: 100%;
   overflow-x: hidden;
 }
-
 html {
   background: var(--background);
 }
-
 body {
   min-height: 100dvh;
-  background: var(--background);
   color: var(--foreground);
   font-family:
-    var(--font-sans), Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+    var(--font-sans),
+    Inter,
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    sans-serif;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
+  background-color: var(--background); /* Dot grid */
+  background-image: radial-gradient(
+    circle,
+    rgba(36, 150, 237, 0.18) 1px,
+    transparent 1px
+  );
+  background-size: 24px 24px;
+  background-attachment: fixed;
+} /* ───────────────────────────────────────────── Ambient background glows ───────────────────────────────────────────── */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: /* Top-left */
+    radial-gradient(
+      ellipse 65% 55% at 0% 0%,
+      rgba(36, 150, 237, 0.13) 0%,
+      transparent 70%
+    ),
+    /* Top-right */
+    radial-gradient(
+        ellipse 55% 45% at 100% 0%,
+        rgba(80, 180, 255, 0.1) 0%,
+        transparent 65%
+      ),
+    /* Bottom-center */
+    radial-gradient(
+        ellipse 60% 50% at 50% 100%,
+        rgba(36, 150, 237, 0.09) 0%,
+        transparent 65%
+      ),
+    /* Left-middle */
+    radial-gradient(
+        ellipse 40% 40% at 0% 60%,
+        rgba(100, 200, 255, 0.07) 0%,
+        transparent 60%
+      );
+} /* ───────────────────────────────────────────── Typography ───────────────────────────────────────────── */
 code,
 pre,
 .monospace {
   font-family:
     var(--font-mono), "JetBrains Mono", "IBM Plex Mono", ui-monospace, monospace;
-}
-
+} /* ───────────────────────────────────────────── Animations ───────────────────────────────────────────── */
 @keyframes fade-in {
   from {
     opacity: 0;
@@ -69,41 +110,91 @@ pre,
     transform: translateY(0);
   }
 }
-
 .animate-fade-in {
   animation: fade-in 0.2s ease-out;
+} /* ───────────────────────────────────────────── Hacktoberfest-style buttons ───────────────────────────────────────────── */
+.hf-button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 20px;
+  background: var(--hf-pink);
+  color: var(--hf-ink);
+  border: 2px solid var(--hf-maroon);
+  border-radius: 6px;
+  font-weight: 800;
+  letter-spacing: -0.01em; /* * The important Hacktoberfest visual: * hard physical offset shadow. */
+  box-shadow: 0 5px 0 var(--hf-maroon);
+  cursor: pointer;
+  transition:
+    transform 120ms ease,
+    box-shadow 120ms ease,
+    background-color 120ms ease;
+} /* Hover: physically pushes the button down */
+.hf-button:hover:not(:disabled) {
+  background: var(--hf-pink-hover);
+  transform: translateY(2px);
+  box-shadow: 0 3px 0 var(--hf-maroon);
+} /* Active: button reaches the surface */
+.hf-button:active:not(:disabled) {
+  transform: translateY(5px);
+  box-shadow: 0 0 0 var(--hf-maroon);
+} /* Keyboard accessibility */
+.hf-button:focus-visible {
+  outline: 3px solid var(--hf-maroon);
+  outline-offset: 3px;
+} /* Disabled state */
+.hf-button:disabled {
+  background: var(--surface);
+  color: var(--foreground-subtle);
+  border-color: var(--border);
+  box-shadow: 0 3px 0 var(--border);
+  cursor: not-allowed;
+  transform: none;
+} /* ───────────────────────────────────────────── Small Hacktoberfest button ───────────────────────────────────────────── */
+.hf-button-sm {
+  min-height: 32px;
+  height: 32px;
+  padding: 0 12px;
+  border-radius: 5px;
+  font-size: 0.75rem;
+  box-shadow: 0 3px 0 var(--hf-maroon);
 }
-
-/* Dockerfile syntax highlighting */
+.hf-button-sm:hover:not(:disabled) {
+  transform: translateY(1px);
+  box-shadow: 0 2px 0 var(--hf-maroon);
+}
+.hf-button-sm:active:not(:disabled) {
+  transform: translateY(3px);
+  box-shadow: 0 0 0 var(--hf-maroon);
+}
+.hf-button-sm:disabled {
+  box-shadow: 0 2px 0 var(--border);
+} /* ───────────────────────────────────────────── Dockerfile syntax highlighting ───────────────────────────────────────────── */
 .dockerfile-line {
   display: block;
 }
-
 .dockerfile-keyword {
   color: var(--accent-hover);
   font-weight: 700;
 }
-
 .dockerfile-comment {
   color: var(--foreground-subtle);
-}
-
-/* Scrollbar */
+} /* ───────────────────────────────────────────── Scrollbar ───────────────────────────────────────────── */
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
 }
-
 ::-webkit-scrollbar-track {
   background: transparent;
 }
-
 ::-webkit-scrollbar-thumb {
   background: var(--border-strong);
   border-radius: 6px;
   border: 2px solid var(--background);
-}
-
+} /* ───────────────────────────────────────────── Text selection ───────────────────────────────────────────── */
 ::selection {
   background: var(--accent-primary);
   color: #ffffff;
