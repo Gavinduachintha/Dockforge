@@ -1,46 +1,60 @@
 @import "tailwindcss";
+
 :root {
-  --background: #ffffff;
-  --surface: #f5faff;
-  --surface-hover: #eaf4fd;
-  --border: #d6e6f5;
-  --border-strong: #b3cde6;
-  --foreground: #0b214a;
-  --foreground-muted: #4a6180;
-  --foreground-subtle: #7c93ad;
-  --accent-primary: #2496ed;
-  --accent-hover: #086dd7;
-  --accent-error: #e5484d; /* Hacktoberfest button colors */
-  --hf-pink: #e97b77;
-  --hf-pink-hover: #f08b87;
-  --hf-maroon: #671912;
-  --hf-ink: #231f20;
-  --hf-paper: #f2f2eb;
+  /* ── Core surfaces ── */
+  --background:       #0a0b14;
+  --surface:          #0f1120;
+  --surface-hover:    #161829;
+
+  /* ── Borders ── */
+  --border:           #1e2240;
+  --border-strong:    #2d3460;
+
+  /* ── Typography ── */
+  --foreground:       #e8eaf6;
+  --foreground-muted: #8892c4;
+  --foreground-subtle:#4d578a;
+
+  /* ── Accent ── */
+  --accent-primary:   #6c7fff;
+  --accent-hover:     #8c9fff;
+  --accent-error:     #ff5e6c;
+
+  /* ── Hacktoberfest palette (dark-adapted) ── */
+  --hf-pink:          #c45cf5;
+  --hf-pink-hover:    #d07aff;
+  --hf-maroon:        #5a1a7a;
+  --hf-ink:           #f0e8ff;
+  --hf-paper:         #180a24;
 }
+
 @theme inline {
-  --color-background: var(--background);
-  --color-surface: var(--surface);
-  --color-surface-hover: var(--surface-hover);
-  --color-border: var(--border);
-  --color-border-strong: var(--border-strong);
-  --color-foreground: var(--foreground);
+  --color-background:       var(--background);
+  --color-surface:          var(--surface);
+  --color-surface-hover:    var(--surface-hover);
+  --color-border:           var(--border);
+  --color-border-strong:    var(--border-strong);
+  --color-foreground:       var(--foreground);
   --color-foreground-muted: var(--foreground-muted);
-  --color-foreground-subtle: var(--foreground-subtle);
-  --color-accent-primary: var(--accent-primary);
-  --color-accent-hover: var(--accent-hover);
-  --color-accent-error: var(--accent-error);
+  --color-foreground-subtle:var(--foreground-subtle);
+  --color-accent-primary:   var(--accent-primary);
+  --color-accent-hover:     var(--accent-hover);
+  --color-accent-error:     var(--accent-error);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
+
 html,
 body {
   min-height: 100%;
   width: 100%;
   overflow-x: hidden;
 }
+
 html {
   background: var(--background);
 }
+
 body {
   min-height: 100dvh;
   color: var(--foreground);
@@ -54,65 +68,82 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: var(--background); /* Dot grid */
+  background-color: var(--background);
+  /* Dot grid — violet-indigo, subtle */
   background-image: radial-gradient(
     circle,
-    rgba(36, 150, 237, 0.18) 1px,
+    rgba(108, 127, 255, 0.14) 1px,
     transparent 1px
   );
   background-size: 24px 24px;
   background-attachment: fixed;
-} /* ───────────────────────────────────────────── Ambient background glows ───────────────────────────────────────────── */
+}
+
+/* ─────────────────────────────────────────────
+   Ambient background glows — deep cosmic bloom
+   ───────────────────────────────────────────── */
 body::after {
   content: "";
   position: fixed;
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  background: /* Top-left */
+  background:
+    /* Top-left — indigo bloom */
     radial-gradient(
       ellipse 65% 55% at 0% 0%,
-      rgba(36, 150, 237, 0.13) 0%,
+      rgba(80, 60, 180, 0.18) 0%,
       transparent 70%
     ),
-    /* Top-right */
+    /* Top-right — violet bloom */
     radial-gradient(
-        ellipse 55% 45% at 100% 0%,
-        rgba(80, 180, 255, 0.1) 0%,
-        transparent 65%
-      ),
-    /* Bottom-center */
+      ellipse 55% 45% at 100% 0%,
+      rgba(140, 60, 220, 0.13) 0%,
+      transparent 65%
+    ),
+    /* Bottom-center — deep indigo pulse */
     radial-gradient(
-        ellipse 60% 50% at 50% 100%,
-        rgba(36, 150, 237, 0.09) 0%,
-        transparent 65%
-      ),
-    /* Left-middle */
+      ellipse 60% 50% at 50% 100%,
+      rgba(60, 80, 200, 0.12) 0%,
+      transparent 65%
+    ),
+    /* Left-middle — subtle sapphire */
     radial-gradient(
-        ellipse 40% 40% at 0% 60%,
-        rgba(100, 200, 255, 0.07) 0%,
-        transparent 60%
-      );
-} /* ───────────────────────────────────────────── Typography ───────────────────────────────────────────── */
+      ellipse 40% 40% at 0% 60%,
+      rgba(50, 40, 160, 0.09) 0%,
+      transparent 60%
+    );
+}
+
+/* ─────────────────────────────────────────────
+   Typography
+   ───────────────────────────────────────────── */
 code,
 pre,
 .monospace {
   font-family:
-    var(--font-mono), "JetBrains Mono", "IBM Plex Mono", ui-monospace, monospace;
-} /* ───────────────────────────────────────────── Animations ───────────────────────────────────────────── */
-@keyframes fade-in {
-  from {
-    opacity: 0;
-    transform: translateY(6px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+    var(--font-mono),
+    "JetBrains Mono",
+    "IBM Plex Mono",
+    ui-monospace,
+    monospace;
 }
+
+/* ─────────────────────────────────────────────
+   Animations
+   ───────────────────────────────────────────── */
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0);   }
+}
+
 .animate-fade-in {
   animation: fade-in 0.2s ease-out;
-} /* ───────────────────────────────────────────── Hacktoberfest-style buttons ───────────────────────────────────────────── */
+}
+
+/* ─────────────────────────────────────────────
+   Hacktoberfest-style buttons (dark-adapted)
+   ───────────────────────────────────────────── */
 .hf-button {
   position: relative;
   display: inline-flex;
@@ -125,27 +156,31 @@ pre,
   border: 2px solid var(--hf-maroon);
   border-radius: 6px;
   font-weight: 800;
-  letter-spacing: -0.01em; /* * The important Hacktoberfest visual: * hard physical offset shadow. */
+  letter-spacing: -0.01em;
   box-shadow: 0 5px 0 var(--hf-maroon);
   cursor: pointer;
   transition:
     transform 120ms ease,
     box-shadow 120ms ease,
     background-color 120ms ease;
-} /* Hover: physically pushes the button down */
+}
+
 .hf-button:hover:not(:disabled) {
   background: var(--hf-pink-hover);
   transform: translateY(2px);
   box-shadow: 0 3px 0 var(--hf-maroon);
-} /* Active: button reaches the surface */
+}
+
 .hf-button:active:not(:disabled) {
   transform: translateY(5px);
   box-shadow: 0 0 0 var(--hf-maroon);
-} /* Keyboard accessibility */
+}
+
 .hf-button:focus-visible {
   outline: 3px solid var(--hf-maroon);
   outline-offset: 3px;
-} /* Disabled state */
+}
+
 .hf-button:disabled {
   background: var(--surface);
   color: var(--foreground-subtle);
@@ -153,7 +188,11 @@ pre,
   box-shadow: 0 3px 0 var(--border);
   cursor: not-allowed;
   transform: none;
-} /* ───────────────────────────────────────────── Small Hacktoberfest button ───────────────────────────────────────────── */
+}
+
+/* ─────────────────────────────────────────────
+   Small Hacktoberfest button
+   ───────────────────────────────────────────── */
 .hf-button-sm {
   min-height: 32px;
   height: 32px;
@@ -162,39 +201,42 @@ pre,
   font-size: 0.75rem;
   box-shadow: 0 3px 0 var(--hf-maroon);
 }
+
 .hf-button-sm:hover:not(:disabled) {
   transform: translateY(1px);
   box-shadow: 0 2px 0 var(--hf-maroon);
 }
+
 .hf-button-sm:active:not(:disabled) {
   transform: translateY(3px);
   box-shadow: 0 0 0 var(--hf-maroon);
 }
+
 .hf-button-sm:disabled {
   box-shadow: 0 2px 0 var(--border);
-} /* ───────────────────────────────────────────── Dockerfile syntax highlighting ───────────────────────────────────────────── */
-.dockerfile-line {
-  display: block;
 }
-.dockerfile-keyword {
-  color: var(--accent-hover);
-  font-weight: 700;
-}
-.dockerfile-comment {
-  color: var(--foreground-subtle);
-} /* ───────────────────────────────────────────── Scrollbar ───────────────────────────────────────────── */
-::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
-}
-::-webkit-scrollbar-track {
-  background: transparent;
-}
+
+/* ─────────────────────────────────────────────
+   Dockerfile syntax highlighting
+   ───────────────────────────────────────────── */
+.dockerfile-line    { display: block; }
+.dockerfile-keyword { color: var(--accent-hover); font-weight: 700; }
+.dockerfile-comment { color: var(--foreground-subtle); }
+
+/* ─────────────────────────────────────────────
+   Scrollbar
+   ───────────────────────────────────────────── */
+::-webkit-scrollbar       { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb {
   background: var(--border-strong);
   border-radius: 6px;
   border: 2px solid var(--background);
-} /* ───────────────────────────────────────────── Text selection ───────────────────────────────────────────── */
+}
+
+/* ─────────────────────────────────────────────
+   Text selection
+   ───────────────────────────────────────────── */
 ::selection {
   background: var(--accent-primary);
   color: #ffffff;
