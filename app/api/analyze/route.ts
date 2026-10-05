@@ -262,7 +262,7 @@ Return ONLY the Dockerfile content without any explanations or markdown formatti
         "X-Title": "DockForge",
       },
       body: JSON.stringify({
-        model: "qwen/qwen3.8-27b:free",
+        model: "apodex/apodex-1.1-mini:free",
         messages: [
           {
             role: "user",
